@@ -1,0 +1,115 @@
+<div>
+    <h2>
+        <span>Appointments</span>
+        <button class="btn btn-primary float-right create-appointment" (click)="openAppointmentsDialog()">
+  <span class="fa fa-plus"></span>
+  <span>Create New Appointment</span>
+</button>
+
+
+    </h2>
+
+     
+    <div class="row"></div>
+    <br />
+    <div class="table-responsive" >
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><span>ID</span></th>
+                    <th><span>Reason</span></th>
+                    <th><span>Insurance Change</span></th>
+                    <th><span>Phone Number</span></th>
+                    <th><span>Action</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let appointment of appointments" >
+                    <td>{{appointment.id}}</td>
+                    <td>{{appointment.reason}}</td>
+                    <td>{{appointment.insuranceChange}}</td>
+                    <td>{{appointment.phoneNumber}}</td>
+                    <td><button type="button" class="btn btn-primary" (click)="opendEditDialogBox(appointment)">Edit</button></td>
+                    <td><button type="button" class="btn btn-secondary" (click)="deleteAppointment(appointment.id!)">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+ </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Create Appointment</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          
+                    <form (ngSubmit)="save()">
+              <div>
+                <label for="reason">Reason:</label>
+                <input type="text" id="reason" name="reason"
+                             [(ngModel)]="appointment.reason" required />
+              </div>
+              <div>
+                <label for="insurance-change">Insurance Change:</label>
+                <input type="checkbox"  id="insurance-change" name="insurance-change"
+                         [(ngModel)]="appointment.insuranceChange"  />
+              </div>
+              <div>
+                <label for="phone-number">Phone Number:</label>
+                <input type="text" id="phone-number" class="form-control" name="phone-number" id="field_phoneNumber"
+                             [(ngModel)]="appointment.phoneNumber" required />
+              </div>
+              
+            </form>
+          
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Edit Modal -->
+<div class="modal fade" id="appointmentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Appointment</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          
+                    <form (ngSubmit)="save()">
+              <div>
+                <label for="reason">Reason:</label>
+                <input type="text" id="reason" name="reason"
+                             [(ngModel)]="appointmentEdit.reason" required />
+              </div>
+              <div>
+                <label for="insurance-change">Insurance Change:</label>
+                <input type="checkbox"  id="insurance-change" name="insurance-change"
+                         [(ngModel)]="appointmentEdit.insuranceChange"  />
+              </div>
+              <div>
+                <label for="phone-number">Phone Number:</label>
+                <input type="text" id="phone-number" class="form-control" name="phone-number" id="field_phoneNumber"
+                             [(ngModel)]="appointmentEdit.phoneNumber" required />
+              </div>
+              
+            </form>
+          
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="edit()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
