@@ -9,4 +9,5 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface AppointmentRepository extends R2dbcRepository<Appointment, Long> {
    Flux<Appointment> findByUserId(Long userId);
+   
 }

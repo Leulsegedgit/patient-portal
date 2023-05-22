@@ -47,34 +47,36 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          
-                    <form (ngSubmit)="save()">
-              <div>
-                <label for="reason">Reason:</label>
-                <input type="text" id="reason" name="reason"
-                             [(ngModel)]="appointment.reason" required />
-              </div>
-              <div>
-                <label for="insurance-change">Insurance Change:</label>
-                <input type="checkbox"  id="insurance-change" name="insurance-change"
-                         [(ngModel)]="appointment.insuranceChange"  />
-              </div>
-              <div>
-                <label for="phone-number">Phone Number:</label>
-                <input type="text" id="phone-number" class="form-control" name="phone-number" id="field_phoneNumber"
-                             [(ngModel)]="appointment.phoneNumber" required />
-              </div>
-              
-            </form>
-          
+        <form [formGroup]="appointmentForm" (ngSubmit)="save()">
+          <div>
+            <label for="reason">Reason:</label>
+            <input type="text" id="reason" name="reason" formControlName="reason" [(ngModel)]="appointment.reason" required />
+            <div *ngIf="appointmentForm.get('reason')!.invalid && (appointmentForm.get('reason')!.dirty || appointmentForm.get('reason')!.touched)">
+              Reason is required.
+            </div>
+          </div>
+          <div>
+            <label for="insurance-change">Insurance Change:</label>
+            <input type="checkbox" id="insurance-change" name="insurance-change" formControlName="insuranceChange" [(ngModel)]="appointment.insuranceChange" />
+          </div>
+          <div>
+            <label for="phone-number">Phone Number:</label>
+            <input type="text" id="phone-number" class="form-control" name="phone-number" id="field_phoneNumber" formControlName="phoneNumber" [(ngModel)]="appointment.phoneNumber" required />
+            <div *ngIf="appointmentForm.get('phoneNumber')!.invalid && (appointmentForm.get('phoneNumber')!.dirty || appointmentForm.get('phoneNumber')!.touched)">
+              <div *ngIf="appointmentForm.get('phoneNumber')!.errors!.required">Phone number is required.</div>
+              <div *ngIf="appointmentForm.get('phoneNumber')!.errors!.pattern">Phone number must be 10 digits.</div>
+            </div>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="appointmentForm.invalid">Save</button>
       </div>
     </div>
   </div>
 </div>
+
 
 <!--Edit Modal -->
 <div class="modal fade" id="appointmentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -86,29 +88,33 @@
       </div>
       <div class="modal-body">
           
-                    <form (ngSubmit)="save()">
+                    <form [formGroup]="appointmentFormEdit" (ngSubmit)="save()">
+             <div>
+            <label for="reason">Reason:</label>
+            <input type="text" id="reason" name="reason" formControlName="reason" [(ngModel)]="appointmentEdit.reason" required />
+            <div *ngIf="appointmentFormEdit.get('reason')!.invalid && (appointmentFormEdit.get('reason')!.dirty || appointmentFormEdit.get('reason')!.touched)">
+              Reason is required.
+            </div>
+          </div>
+             <div>
+            <label for="insurance-change">Insurance Change:</label>
+            <input type="checkbox" id="insurance-change" name="insurance-change" formControlName="insuranceChange" [(ngModel)]="appointmentEdit.insuranceChange" />
+          </div>
               <div>
-                <label for="reason">Reason:</label>
-                <input type="text" id="reason" name="reason"
-                             [(ngModel)]="appointmentEdit.reason" required />
-              </div>
-              <div>
-                <label for="insurance-change">Insurance Change:</label>
-                <input type="checkbox"  id="insurance-change" name="insurance-change"
-                         [(ngModel)]="appointmentEdit.insuranceChange"  />
-              </div>
-              <div>
-                <label for="phone-number">Phone Number:</label>
-                <input type="text" id="phone-number" class="form-control" name="phone-number" id="field_phoneNumber"
-                             [(ngModel)]="appointmentEdit.phoneNumber" required />
-              </div>
+            <label for="phone-number">Phone Number:</label>
+            <input type="text" id="phone-number" class="form-control" name="phone-number" id="field_phoneNumber" formControlName="phoneNumber" [(ngModel)]="appointmentEdit.phoneNumber" required />
+            <div *ngIf="appointmentFormEdit.get('phoneNumber')!.invalid && (appointmentFormEdit.get('phoneNumber')!.dirty || appointmentFormEdit.get('phoneNumber')!.touched)">
+              <div *ngIf="appointmentFormEdit.get('phoneNumber')!.errors!.required">Phone number is required.</div>
+              <div *ngIf="appointmentFormEdit.get('phoneNumber')!.errors!.pattern">Phone number must be 10 digits.</div>
+            </div>
+          </div>
               
             </form>
           
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="edit()">Save changes</button>
+        <button type="button" class="btn btn-primary" (click)="edit()" [disabled]="appointmentFormEdit.invalid">Save changes</button>
       </div>
     </div>
   </div>

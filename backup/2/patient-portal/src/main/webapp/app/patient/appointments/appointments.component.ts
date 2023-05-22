@@ -1,4 +1,5 @@
 import {Component, OnDestroy, OnInit,ChangeDetectorRef} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ResponseWrapper } from 'app/shared/model/response-wrapper.model';
 import { AppointmentsDialogComponent } from './appointments-dialog.component';
@@ -20,13 +21,15 @@ export class AppointmentsComponent implements OnInit, OnDestroy {
   formModal:any;
   formEditModal:any;
     outletName = 'patient-appointments-new';
+    appointmentForm!: FormGroup; // Add the appointmentForm variable
+    appointmentFormEdit!: FormGroup; // Add the appointmentForm variable
     constructor(
     private appointmentService: AppointmentsService,
     private eventManager: EventManager,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    
-){}
+    private formBuilder: FormBuilder, // Add the formBuilder
+    ){}
     
     ngOnInit() {
         this.formModal = new window.bootstrap.Modal(
@@ -36,6 +39,19 @@ export class AppointmentsComponent implements OnInit, OnDestroy {
          document.getElementById("appointmentEditModal")
         );
     this.getAppointments();
+    
+    // Initialize the appointmentForm
+    this.appointmentForm = this.formBuilder.group({
+      reason: ['', Validators.required],
+      insuranceChange: [false],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
+    });
+    
+    this.appointmentFormEdit = this.formBuilder.group({
+      reason: ['', Validators.required],
+      insuranceChange: [false],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
+    });
 }
   
 
@@ -43,7 +59,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy {
         
     }
  save() {
-        
+        console.log(12345)
         this.appointmentService.create(this.appointment).subscribe(
         result =>{
             console.log(result)
